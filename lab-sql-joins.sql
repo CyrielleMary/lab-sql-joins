@@ -27,11 +27,39 @@ ON st.staff_id=p.staff_id
 GROUP BY s.store_id;
 
 -- Determine the average running time of films for each category.
-
+SELECT fc.category_id, AVG(length) AS average_time_film
+FROM sakila.film f
+JOIN sakila.film_category fc
+ON f.film_id=fc.film_id
+GROUP BY fc.category_id
+ORDER BY fc.category_id ASC;
 
 -- BONUS
 -- Identify the film categories with the longest average running time.
+-- Comment Cyrielle: do we want the top 5?
+SELECT fc.category_id, AVG(length) AS average_time_film
+FROM sakila.film f
+JOIN sakila.film_category fc
+ON f.film_id=fc.film_id
+GROUP BY fc.category_id
+ORDER BY average_time_film DESC
+LIMIT 5;
+
 -- Display the top 10 most frequently rented movies in descending order.
+SELECT f.film_id, f.title, COUNT(r.rental_id) AS times_rented
+FROM sakila.rental r
+JOIN sakila.inventory i
+ON r.inventory_id=i.inventory_id
+JOIN sakila.film f
+ON f.film_id=i.film_id
+GROUP BY f.film_id
+ORDER BY times_rented desc
+limit 10;
+
+
+
 -- Provide a list of all distinct film titles, along with their availability status in the inventory. 
 	-- Include a column indicating whether each title is 'Available' or 'NOT available.' 
     -- Note that there are 42 titles that are not in the inventory, and this information can be obtained using a CASE statement combined with IFNULL."
+SELECT * FROM INVENTORY;    
+
